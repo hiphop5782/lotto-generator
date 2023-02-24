@@ -1,1 +1,1 @@
-# lotto-generator
+# 로또 생성기
