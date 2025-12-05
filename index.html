@@ -1,320 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 열혈강사 로또 생성기 🌟</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <title>🌟 로또 1등 당첨 기원! 🌟</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737135009848849"
         crossorigin="anonymous"></script>
-
+         
     <style>
-        /* CSS 변수 설정 */
-        :root {
-            --primary-gold: #fae37d;
-            --secondary-gold: #e2cc81;
-            --dark-bg: #1a1a2e; /* 짙은 네이비 */
-            --light-text: #f0f0f0;
-            --ball-size: 3em; /* 로또 공 기본 크기 (JS에서도 사용) */
-        }
-
-        * {
-            box-sizing: border-box;
-            font-family: 'Noto Sans KR', sans-serif; /* 기본 폰트 변경 */
-            color: var(--light-text);
-        }
-
-        html,
+        /* CSS 스타일은 이전과 동일 */
         body {
+            font-family: 'Malgun Gothic', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 0;
-            background-color: var(--dark-bg); /* 배경색 어둡게 변경 */
-        }
-
-        /* ----- 로또 공 스타일 개선 ----- */
-        .lotto-wrapper {
+            background: linear-gradient(135deg, #1f005c, #5c005c, #8f005c);
+            color: #fff;
+            text-align: center;
             overflow: hidden;
-            white-space: nowrap;
-            padding: 18vw 2vw 5vw 2vw; /* 패딩 조정 */
-            text-align: center; /* 공들을 중앙 정렬 */
-            min-height: 40vh; /* 최소 높이 확보 */
         }
-
-        .lotto-wrapper>.lotto-ball {
-            font-size: 4.4vw;
-            width: var(--ball-size);
-            height: var(--ball-size);
-            margin: 0.1em;
-            
-            display: inline-flex;
+        h1 {
+            font-size: 2.5em;
+            color: #ffdd00;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+            animation: pulse 1.5s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        .intro-text {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        .numbers-container {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            min-height: 80px;
+        }
+        .number-ball {
+            width: 60px;
+            height: 60px;
+            background: #ccc;
+            border-radius: 50%;
+            display: flex;
             justify-content: center;
             align-items: center;
-
-            border-radius: 50%;
-            position: relative;
-            
-            /* 초기 위치: 왼쪽 밖 (transition을 위해) */
-            left: -100vw; 
-            opacity: 0;
-            transition: all 0.5s ease-out, opacity 0.3s ease-out; /* 위치, 투명도 변화 트랜지션 통합 */
-        }
-
-        .lotto-wrapper>.lotto-ball.active {
-            left: 0; /* 중앙으로 이동 */
-            opacity: 1;
-        }
-
-        .lotto-wrapper>.lotto-ball>.number {
-            font-family: 'Roboto Mono', monospace; /* 숫자만 폰트 유지 */
-            flex-grow: 1;
-            text-align: center;
+            font-size: 1.8em;
             font-weight: bold;
-            font-size: 1em; /* 부모 크기 기준 */
-            transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 바운스 효과 추가 */
+            color: #333;
+            border: 4px solid #fff;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease-out;
         }
-
-        .lotto-wrapper>.lotto-ball.active>.number {
-            transform: rotate(-720deg); /* 회전 각도 줄여서 빠르게 */
+        .number-ball.bonus {
+            border-color: #f00;
+            background: #ffe0e0;
         }
-
-        /* 쉐도우는 기존 CSS 유지 */
-
-        /* ball color: 1~7번까지의 색상 그대로 유지 */
-        /* ... 기존 로또 공 색상 CSS 유지 ... */
-        .lotto-wrapper>.lotto-ball:nth-child(1) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(255, 126, 126, 1) 15%, rgba(255, 0, 0, 1) 50%, rgba(124, 0, 0, 1) 70%, rgba(255, 0, 0, 1) 100%); }
-        .lotto-wrapper>.lotto-ball:nth-child(2) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(255, 191, 130, 1) 15%, rgba(255, 125, 0, 1) 50%, rgba(121, 59, 0, 1) 70%, rgba(255, 125, 0, 1) 100%); }
-        .lotto-wrapper>.lotto-ball:nth-child(3) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(253, 255, 126, 1) 15%, rgba(252, 255, 0, 1) 50%, rgba(117, 119, 0, 1) 70%, rgba(252, 255, 0, 1) 100%); }
-        .lotto-wrapper>.lotto-ball:nth-child(4) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(145, 255, 128, 1) 15%, rgba(34, 255, 0, 1) 50%, rgba(15, 115, 0, 1) 70%, rgba(34, 255, 0, 1) 100%); }
-        .lotto-wrapper>.lotto-ball:nth-child(5) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(131, 232, 254, 1) 15%, rgba(0, 209, 255, 1) 50%, rgba(0, 100, 122, 1) 70%, rgba(0, 209, 255, 1) 100%); }
-        .lotto-wrapper>.lotto-ball:nth-child(6) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(127, 140, 255, 1) 15%, rgba(0, 26, 255, 1) 50%, rgba(0, 12, 121, 1) 70%, rgba(0, 26, 255, 1) 100%); }
-        .lotto-wrapper>.lotto-ball:nth-child(7) { background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(201, 134, 255, 1) 15%, rgba(142, 0, 255, 1) 50%, rgba(65, 0, 117, 1) 70%, rgba(142, 0, 255, 1) 100%); }
-
-
-        /* ----- 버튼 스타일 및 위치 개선 ----- */
-        .header {
+        .number-ball.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .lotto-result {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .result-message {
+            font-size: 3em;
+            color: #00ff00;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 5px #fff;
+            margin-top: 20px;
+            animation: shake 0.5s infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #ff005c;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px #d1004c, 0 0 20px rgba(255, 0, 92, 0.8);
+            transition: all 0.2s;
+        }
+        button:hover {
+            background-color: #ff3377;
+            box-shadow: 0 5px #d1004c;
+            transform: translateY(3px);
+        }
+        button:active {
+            background-color: #d1004c;
+            box-shadow: 0 2px #a3003a;
+            transform: translateY(6px);
+        }
+        button:disabled {
+            background-color: #777;
+            box-shadow: 0 4px #555;
+            cursor: default;
+        }
+        /* 폭죽 스타일 및 번호 색상 스타일은 생략 */
+        .fireworks {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 2vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
         }
-
-        .generate-btn {
-            display: block;
-            width: 12vw;
-            height: 12vw;
-            min-width: 80px;
-            min-height: 80px;
-            max-width: 120px;
-            max-height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-gold);
-            font-size: 1.5rem;
-            font-weight: bolder;
-            cursor: pointer;
-            background: linear-gradient(90deg, transparent 0%, transparent 25%, rgba(250, 227, 125, 0.5) 48%, var(--primary-gold) 50%, rgba(250, 227, 125, 0.5) 52%, transparent 75%, transparent 100%);
-            background-size: 500%;
-            background-position: 0 0;
-            transition: background 0.7s ease-out, transform 0.2s;
-            color: var(--dark-bg); /* 버튼 텍스트 색상을 어둡게 변경 */
-        }
-        
-        .generate-btn:hover {
-            background-position: 100% 0;
-            transform: scale(1.05);
-        }
-        .generate-btn:active {
-            transform: scale(0.95);
-        }
-
-        .lotto-master {
-            width: 12vw;
-            height: 12vw;
-            min-width: 80px;
-            min-height: 80px;
-            max-width: 120px;
-            max-height: 120px;
-        }
-
-        /* ----- 광고 위치 최적화 ----- */
-        .ad-container {
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .fixed-ad {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 990px;
-            z-index: 99;
-            background-color: rgba(26, 26, 46, 0.9); /* 배경색과 유사하게 */
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
-            padding: 5px 0;
-        }
-        
-        /* 모바일 반응형 조정 */
-        @media (max-width: 768px) {
-            .lotto-wrapper>.lotto-ball {
-                font-size: 7vw; /* 모바일에서 공 크기 확대 */
-            }
-            .generate-btn {
-                font-size: 1.2rem;
-            }
-            .header {
-                justify-content: center; /* 모바일에서 버튼/로고 중앙 근처에 배치 */
-            }
-        }
+        .color-1 { background-color: #f9d854; color: #333; }
+        .color-2 { background-color: #69c8f2; color: #333; }
+        .color-3 { background-color: #ff7272; color: #333; }
+        .color-4 { background-color: #aaa; color: #333; }
+        .color-5 { background-color: #b0d840; color: #333; }
     </style>
+</head>
+<body>
+
+    <div class="fireworks" id="fireworks-container"></div>
+
+    <div style="margin: 20px auto; max-width: 728px;">
+        <!-- Lotto생성기-광고 -->
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-3737135009848849"
+            data-ad-slot="4912822814"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <h1>✨ 억! 소리 나는 행운의 기운이 몰려온다! ✨</h1>
+
+    
+    <div style="margin: 20px auto; max-width: 728px;">
+        </div>
+
+    <p class="intro-text">
+        **인생 역전**을 위한 단 하나의 기회! <br>
+        당신의 시선을 끌어당기는 황금색 번호가 곧 공개됩니다! <br>
+        집중하세요! 1등의 행운이 당신을 기다립니다! 🍀
+    </p>
+
+    <div class="numbers-container" id="numbers-container">
+        </div>
+
+    <button id="drawButton" onclick="startDraw()">💰 황금 번호 추첨하기! 💰</button>
+
+    <div class="lotto-result" id="result-area">
+        <h2 class="result-message"></h2>
+    </div>
+    
+    <div style="margin: 30px auto; max-width: 728px;">
+        </div>
+
     <script>
-        // 전역 변수로 관리
-        var AD_SLOT_ID = "4912822814";
-        var AD_CLIENT_ID = "ca-pub-3737135009848849";
-        
-        // 로또 공 애니메이션 및 생성
-        window.addEventListener("load", function () {
-            var generateBtn = document.querySelector(".generate-btn");
-            generateBtn.addEventListener("click", function () {
-                generateBtn.disabled = true; // 중복 클릭 방지
-                
-                // 1. 카운트다운 (UX 개선)
-                generateBtn.textContent = '3';
-                setTimeout(() => generateBtn.textContent = '2', 300);
-                setTimeout(() => generateBtn.textContent = '1', 600);
+        // JavaScript 코드는 이전과 동일합니다.
+        const DRAW_COUNT = 6;
+        const BONUS_COUNT = 1;
 
-                setTimeout(() => {
-                    generateBtn.textContent = '번호\n추첨'; // 텍스트 복원
-                    generateLottoBalls(7);
-                    generateBtn.disabled = false; // 버튼 활성화
-                }, 1000); // 1초 카운트다운 후 실행
-                
-                // 2. 광고 재초기화 (광고 수입 증대)
-                // 새 번호를 생성할 때마다 광고 로드를 요청하여 SPA 환경에 대비
-                refreshAdSense('lotto-ad-top');
-                refreshAdSense('lotto-ad-fixed');
-            });
-            
-            // 초기 페이지 로드 시 상단 광고 초기화
-            refreshAdSense('lotto-ad-top'); 
-        });
-
-        // 리액트 환경에 대비하여 광고를 수동으로 재초기화하는 함수
-        function refreshAdSense(id) {
-            var adElement = document.getElementById(id);
-            if (adElement) {
-                // 기존 광고를 제거하고 다시 삽입 (DOM을 깨끗하게)
-                var parent = adElement.parentNode;
-                var newAd = document.createElement('ins');
-                newAd.className = 'adsbygoogle';
-                newAd.id = id;
-                newAd.style.display = 'block';
-                newAd.setAttribute('data-ad-client', AD_CLIENT_ID);
-                newAd.setAttribute('data-ad-slot', AD_SLOT_ID);
-                newAd.setAttribute('data-ad-format', 'auto');
-                newAd.setAttribute('data-full-width-responsive', 'true');
-                
-                parent.replaceChild(newAd, adElement);
-
-                try {
-                    // window.adsbygoogle 배열에 push하여 광고 로드를 요청
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.warn("AdSense push failed:", e);
-                }
-            }
-        }
-
-        // 로또 번호 생성 및 정렬
-        function generateLottoBalls(size) {
-            var template = document.querySelector("#lotto-ball-template");
-            var lottoBallDiv = template.content.children[0];
-            var lottoWrapperDiv = document.querySelector(".lotto-wrapper");
-            lottoWrapperDiv.innerHTML = "";
-            
-            // 1. 번호 생성 및 오름차순 정렬
-            var lottoNumbers = generateLottoNumbers(size).sort((a, b) => a - b); 
-
-            // 2. 공 생성 및 애니메이션 적용
-            for (var i = 0; i < lottoNumbers.length; i++) {
-                var cloneDiv = document.importNode(lottoBallDiv, true);
-                cloneDiv.querySelector(".number").textContent = lottoNumbers[i];
-                lottoWrapperDiv.appendChild(cloneDiv);
-                
-                // 공이 순서대로 0.2초 간격으로 나타나게 딜레이 설정
-                moveBall(cloneDiv, i * 200); 
-            }
-        }
-
-        function moveBall(target, delay) {
-            setTimeout(function () {
-                target.classList.add("active");
-            }, delay);
-        }
-
-        function generateLottoNumbers(size) {
-            var numbers = [];
-            for (var i = 1; i <= 45; i++) {
+        function generateLottoNumbers() {
+            // ... (생략: 로또 번호 생성 로직) ...
+            const numbers = [];
+            for (let i = 1; i <= 45; i++) {
                 numbers.push(i);
             }
 
-            //shuffle (피셔-예이츠 셔플 알고리즘 최적화)
-            for (var i = numbers.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                [numbers[i], numbers[j]] = [numbers[j], numbers[i]]; // ES6 Swap
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
             }
 
-            //slice
-            return numbers.slice(0, size);
+            const winningNumbers = numbers.slice(0, DRAW_COUNT).sort((a, b) => a - b);
+            const bonusNumber = numbers[DRAW_COUNT];
+            
+            return { winningNumbers, bonusNumber };
+        }
+
+        function getBallColorClass(number) {
+            if (number >= 1 && number <= 10) return 'color-1';
+            if (number >= 11 && number <= 20) return 'color-2';
+            if (number >= 21 && number <= 30) return 'color-3';
+            if (number >= 31 && number <= 40) return 'color-4';
+            if (number >= 41 && number <= 45) return 'color-5';
+            return '';
+        }
+
+        function startDraw() {
+            const drawButton = document.getElementById('drawButton');
+            const numbersContainer = document.getElementById('numbers-container');
+            const resultArea = document.getElementById('result-area');
+
+            drawButton.disabled = true;
+            numbersContainer.innerHTML = '';
+            resultArea.style.display = 'none';
+            document.getElementById('fireworks-container').innerHTML = '';
+
+            const { winningNumbers, bonusNumber } = generateLottoNumbers();
+            const allNumbers = [...winningNumbers, bonusNumber];
+
+            allNumbers.forEach((num, index) => {
+                const ball = document.createElement('div');
+                ball.className = `number-ball ${getBallColorClass(num)} ${index === allNumbers.length - 1 ? 'bonus' : ''}`;
+                ball.textContent = '?';
+                ball.id = `ball-${index}`;
+                numbersContainer.appendChild(ball);
+
+                setTimeout(() => {
+                    ball.textContent = num;
+                    ball.classList.add('show');
+                    
+                    if (index === allNumbers.length - 1) {
+                        endDrawAnimation();
+                    }
+                }, index * 800 + 500);
+            });
+        }
+
+        function endDrawAnimation() {
+            const resultArea = document.getElementById('result-area');
+            const resultMessage = resultArea.querySelector('.result-message');
+            const drawButton = document.getElementById('drawButton');
+
+            setTimeout(() => {
+                resultMessage.textContent = '💥 1등 당첨 가자! 💥';
+                resultArea.style.display = 'flex';
+                drawButton.disabled = false;
+
+                launchFireworks(5);
+            }, 500 * (DRAW_COUNT + BONUS_COUNT) + 500);
+        }
+
+        function launchFireworks(count) {
+            const fireworksContainer = document.getElementById('fireworks-container');
+            
+            for (let i = 0; i < count; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                
+                const x = Math.random() * 100;
+                const y = Math.random() * 80;
+                const size = Math.random() * 5 + 3;
+                const duration = Math.random() * 1.5 + 1.5;
+
+                firework.style.cssText = `
+                    position: absolute;
+                    left: ${x}vw;
+                    top: ${y}vh;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background-color: hsl(${Math.random() * 360}, 100%, 50%);
+                    border-radius: 50%;
+                    box-shadow: 0 0 20px 5px currentColor;
+                    animation: explode ${duration}s ease-out forwards;
+                `;
+                fireworksContainer.appendChild(firework);
+
+                firework.addEventListener('animationend', () => firework.remove());
+            }
+
+            if (!document.getElementById('fireworks-style')) {
+                const style = document.createElement('style');
+                style.id = 'fireworks-style';
+                style.textContent = `
+                    @keyframes explode {
+                        0% { opacity: 1; transform: scale(1); }
+                        100% { opacity: 0; transform: scale(30); box-shadow: 0 0 50px 20px currentColor; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
         }
     </script>
-</head>
-
-<body>
-    <template id="lotto-ball-template">
-        <div class="lotto-ball">
-            <div class="number">?</div>
-            <div class="shadow"></div>
-        </div>
-    </template>
-
-    <header class="header">
-        <img class="lotto-master" src="./image/lotto.png" alt="로또 마스터 로고">
-        <button class="generate-btn">번호<br>추첨</button>
-    </header>
-    
-    <div class="ad-container" style="padding-top: 15vw;">
-        <ins id="lotto-ad-top" class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3737135009848849"
-            data-ad-slot="4912822814"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        </div>
-
-    <div class="lotto-wrapper">
-        <p style="font-size: 1.2em; color: var(--secondary-gold);">위의 '번호 추첨' 버튼을 눌러 행운을 확인하세요!</p>
-    </div>
-
-    <div class="fixed-ad">
-        <ins id="lotto-ad-fixed" class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3737135009848849"
-            data-ad-slot="4912822814"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        </div>
-
 </body>
-
 </html>
