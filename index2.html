@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 로또 1등 당첨 기원! 🌟</title>
+    <title>🌟 로또 1등 당첨 기원! - 긴장감 MAX 🌟</title>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737135009848849"
-        crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+         crossorigin="anonymous"></script> 
          
     <style>
-        /* CSS 스타일은 이전과 동일 */
+        /* CSS: 분위기 조성 및 스타일 */
         body {
             font-family: 'Malgun Gothic', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #1f005c, #5c005c, #8f005c);
+            background: linear-gradient(135deg, #1f005c, #5c005c, #8f005c); /* 몽환적인 배경 */
             color: #fff;
             text-align: center;
             overflow: hidden;
@@ -43,33 +43,59 @@
         }
         .numbers-container {
             display: flex;
-            gap: 10px;
+            gap: 15px; /* 간격 확대 */
             margin: 30px 0;
             min-height: 80px;
         }
         .number-ball {
-            width: 60px;
-            height: 60px;
+            width: 70px; /* 크기 확대 */
+            height: 70px;
             background: #ccc;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.8em;
+            font-size: 2.0em; /* 글자 크기 확대 */
             font-weight: bold;
             color: #333;
-            border: 4px solid #fff;
+            border: 5px solid #fff; /* 테두리 확대 */
             opacity: 0;
             transform: scale(0.5);
             transition: all 0.5s ease-out;
+            /* 긴장감 추가: 쉐이크 및 부유 애니메이션 */
+            animation: none; /* 초기에는 애니메이션 없음 */
         }
+        
+        /* 🔥 긴장감 넘치는 애니메이션 정의 */
+        @keyframes jiggle { /* 숫자가 결정될 때 떨리는 효과 */
+            0%, 100% { transform: translate(1px, 1px) rotate(0deg) scale(1); }
+            25% { transform: translate(-1px, -1px) rotate(-1deg) scale(1.05); }
+            50% { transform: translate(1px, -2px) rotate(1deg) scale(1); }
+            75% { transform: translate(-1px, 2px) rotate(-1deg) scale(1.05); }
+        }
+        @keyframes float { /* 공이 살짝 부유하는 효과 (숫자 확정 전) */
+            0% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-5px) scale(1.02); }
+            100% { transform: translateY(0px) scale(1); }
+        }
+
+        .number-ball.spinning {
+            opacity: 1;
+            transform: scale(1.1);
+            animation: jiggle 0.1s infinite, float 2s ease-in-out infinite alternate;
+            background: linear-gradient(45deg, #ffdd00, #fff7a0); /* 회전하는 듯한 빛나는 배경 */
+            color: #d1004c;
+        }
+
         .number-ball.bonus {
             border-color: #f00;
             background: #ffe0e0;
         }
         .number-ball.show {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1.1) !important; /* 확정 시 약간 커짐 */
+            animation: none !important; /* 애니메이션 중단 */
+            transition: transform 0.2s ease-out;
         }
         .lotto-result {
             display: none;
@@ -117,7 +143,6 @@
             box-shadow: 0 4px #555;
             cursor: default;
         }
-        /* 폭죽 스타일 및 번호 색상 스타일은 생략 */
         .fireworks {
             position: fixed;
             top: 0;
@@ -127,6 +152,7 @@
             pointer-events: none;
             z-index: 1000;
         }
+        /* 번호 색상 */
         .color-1 { background-color: #f9d854; color: #333; }
         .color-2 { background-color: #69c8f2; color: #333; }
         .color-3 { background-color: #ff7272; color: #333; }
@@ -138,23 +164,7 @@
 
     <div class="fireworks" id="fireworks-container"></div>
 
-    <div style="margin: 20px auto; max-width: 728px;">
-        <!-- Lotto생성기-광고 -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3737135009848849"
-            data-ad-slot="4912822814"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            window.addEventListener("load", ()=>{
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            });
-        </script>
-    </div>
-
     <h1>✨ 억! 소리 나는 행운의 기운이 몰려온다! ✨</h1>
-
     
     <div style="margin: 20px auto; max-width: 728px;">
         </div>
@@ -178,12 +188,10 @@
         </div>
 
     <script>
-        // JavaScript 코드는 이전과 동일합니다.
         const DRAW_COUNT = 6;
         const BONUS_COUNT = 1;
-
+        
         function generateLottoNumbers() {
-            // ... (생략: 로또 번호 생성 로직) ...
             const numbers = [];
             for (let i = 1; i <= 45; i++) {
                 numbers.push(i);
@@ -209,11 +217,30 @@
             return '';
         }
 
+        // 🔥 카운트 업 애니메이션을 위한 헬퍼 함수
+        function animateNumberCount(element, finalNumber) {
+            let current = 0;
+            const step = Math.ceil(finalNumber / 30); // 약 30단계로 나누어 빠르게 카운트
+
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= finalNumber) {
+                    clearInterval(timer);
+                    element.textContent = finalNumber;
+                    element.classList.remove('spinning'); // 최종 번호 확정, 애니메이션 중지
+                    element.classList.add('show');
+                } else {
+                    element.textContent = current;
+                }
+            }, 50); // 0.05초 간격으로 빠르게 업데이트
+        }
+
         function startDraw() {
             const drawButton = document.getElementById('drawButton');
             const numbersContainer = document.getElementById('numbers-container');
             const resultArea = document.getElementById('result-area');
 
+            // 초기화
             drawButton.disabled = true;
             numbersContainer.innerHTML = '';
             resultArea.style.display = 'none';
@@ -224,19 +251,28 @@
 
             allNumbers.forEach((num, index) => {
                 const ball = document.createElement('div');
-                ball.className = `number-ball ${getBallColorClass(num)} ${index === allNumbers.length - 1 ? 'bonus' : ''}`;
-                ball.textContent = '?';
+                ball.className = `number-ball spinning`; // 긴장감 애니메이션 시작
+                ball.textContent = '00'; // 초기 카운트 시작 값
                 ball.id = `ball-${index}`;
                 numbersContainer.appendChild(ball);
 
+                // 번호 확정까지 1.5초 대기 후 카운트 시작
                 setTimeout(() => {
-                    ball.textContent = num;
-                    ball.classList.add('show');
+                    const isBonus = (index === allNumbers.length - 1);
                     
-                    if (index === allNumbers.length - 1) {
+                    // 배경색 최종 결정
+                    ball.classList.add(getBallColorClass(num));
+                    if (isBonus) {
+                         ball.classList.add('bonus');
+                    }
+                    
+                    animateNumberCount(ball, num);
+                    
+                    // 마지막 번호 (보너스)가 나왔을 때 최종 애니메이션 실행
+                    if (isBonus) {
                         endDrawAnimation();
                     }
-                }, index * 800 + 500);
+                }, index * 1500 + 500); // 번호 하나당 1.5초 간격
             });
         }
 
@@ -250,10 +286,11 @@
                 resultArea.style.display = 'flex';
                 drawButton.disabled = false;
 
-                launchFireworks(5);
-            }, 500 * (DRAW_COUNT + BONUS_COUNT) + 500);
+                launchFireworks(7); // 폭죽 횟수 증가
+            }, 1000); // 마지막 공 확정 후 1초 뒤 폭죽
         }
 
+        // 🎇 폭죽 효과 함수 (이전과 동일)
         function launchFireworks(count) {
             const fireworksContainer = document.getElementById('fireworks-container');
             
