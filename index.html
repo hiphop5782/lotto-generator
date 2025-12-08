@@ -373,12 +373,40 @@
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737135009848849"
                 crossorigin="anonymous"></script>
             <!-- LOTTO-TOP -->
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3737135009848849"
-                data-ad-slot="5213473237" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block; min-height: 90px; width: 100%;" 
+                data-ad-client="ca-pub-3737135009848849"
+                data-ad-slot="5213473237" 
+                data-ad-format="auto" 
+                data-full-width-responsive="true"></ins>
             <script>
-                setTimeout(()=>{
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                }, 2000)
+                // setTimeout(() => {
+                    //1. 컨테이너 크기를 확인합니다.
+                    const adContainer = document.querySelector('.ad-container');
+                    const insElement = document.querySelector('.ad-container ins.adsbygoogle');
+                    
+                    if (adContainer) {
+                        // getBoundingClientRect()로 실제 계산된 크기를 가져옵니다.
+                        const rect = insElement.getBoundingClientRect();
+
+                        console.log("--- AdSense 디버깅 정보 ---");
+                        console.log("광고 컨테이너(.ad-container) DOM 객체:", adContainer);
+                        console.log("광고 컨테이너 너비 : " + adContainer.getBoundingClientRect().width + "px");
+                        console.log("광고 컨테이너 너비 : " + adContainer.getBoundingClientRect().height + "px");
+                        console.log("INS 태그(.adsbygoogle) DOM 객체:", insElement);
+                        console.log("INS 태그의 계산된 너비:", rect.width + "px");
+                        console.log("INS 태그의 계산된 높이:", rect.height + "px");
+                        console.log("---------------------------");
+                        
+                        if (rect.width < 100 || rect.height < 50) {
+                            console.error("경고: 계산된 광고 크기가 너무 작습니다. 너비가 0이거나 높이가 0일 가능성이 높습니다!");
+                        }
+                        else {
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        }
+                    } else {
+                        console.error("에러: .ad-container 요소를 찾을 수 없습니다.");
+                    }
+                // }, 2000)
             </script>
         </div>
 
