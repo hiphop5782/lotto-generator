@@ -492,7 +492,7 @@
 
                     ball.innerText = number;
                     // 굴러오는 애니메이션 적용
-                    const duration = window.innerWidth / 1000 * 2;
+                    const duration = window.innerWidth / 480;
                     ball.style.animation = `rollIn ${duration}s linear forwards`;
 
                     resultArea.appendChild(ball);
@@ -500,6 +500,24 @@
                     resolve();
                 }, delay);
             });
+        }
+
+        /**
+         * +를 생성하는 함수
+         */
+        function createPlus(delay) {
+            return new Promise((resolve)=>{
+                const plus = document.createElement('div');
+                plus.className = 'plus-sign';
+                plus.innerText = '+';
+                // 굴러오는 애니메이션 적용
+                const duration = window.innerWidth / 480;
+                plus.style.animation = `rollIn ${duration}s linear forwards`;
+
+                resultArea.appendChild(plus);
+
+                resolve();
+            }, delay);
         }
 
         /**
@@ -551,43 +569,32 @@
             const [mainNumbers, bonusNumber] = generateLottoNumbers();
 
             // 일반 공 6개 순차 등장 (랜덤 순서)
-            const stepDelay = 600;
+            const stepDelay = window.innerWidth / 480 * 100;
 
             for (let i = 0; i < mainNumbers.length; i++) {
                 await createBall(mainNumbers[i], false, stepDelay);
             }
 
             // 플러스 기호 등장
-            setTimeout(() => {
-                const plus = document.createElement('div');
-                plus.className = 'plus-sign';
-                plus.innerText = '+';
-                plus.style.animation = 'appear 0.5s forwards';
-                // appear는 기존에 있던 애니메이션인데 삭제했으므로 rollIn으로 대체하거나 복구 필요.
-                // 여기서는 간단히 opacity fadein 등으로 처리하거나 rollIn 사용. 
-                // plus-sign은 작으므로 rollIn은 과함. scale up만 복구하거나 style로 처리.
-                plus.style.animation = 'none';
-                plus.style.transform = 'scale(0)';
-                plus.style.transition = 'transform 0.5s';
-                requestAnimationFrame(() => plus.style.transform = 'scale(1)');
-
-                resultArea.appendChild(plus);
-            }, stepDelay + (window.innerWidth * 2));
+            await createPlus(stepDelay);
 
             // 보너스 공 등장
-            await createBall(bonusNumber, true, stepDelay + (window.innerWidth * 2));
+            await createBall(bonusNumber, true, stepDelay);
 
             // 잠시 대기 후 정렬
-            await new Promise(r => setTimeout(r, 2000));
-            sortBalls(mainNumbers, 500);
+            //await new Promise(r => setTimeout(r, stepDelay * 10));
+            // await sortBalls(mainNumbers, stepDelay * 20);
 
             // 마무리
-            setTimeout(() => {
-                drawBtn.disabled = false;
-                drawBtn.innerText = "다시 추첨하기";
-                congratsMsg.classList.add('show');
-                launchFireworks(); // 폭죽 발사
-            }, 500);
+            await new Promise(r=>{
+                setTimeout(() => {
+                    drawBtn.disabled = false;
+                    drawBtn.innerText = "다시 추첨하기";
+                    congratsMsg.classList.add('show');
+                    launchFireworks(); // 폭죽 발사
+                }, 500);
+                r();
+            });
         }
 
         drawBtn.addEventListener('click', startDraw);
