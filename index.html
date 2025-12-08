@@ -259,10 +259,12 @@
                 transform: translateX(100vw) rotate(1440deg);
                 opacity: 0;
             }
+
             98% {
                 transform: translateX(-0.2vw) rotate(-10deg);
                 opacity: 1;
             }
+
             100% {
                 transform: translateX(0) rotate(0deg);
                 opacity: 1;
@@ -377,40 +379,38 @@
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737135009848849"
                 crossorigin="anonymous"></script>
             <!-- LOTTO-TOP -->
-            <ins class="adsbygoogle" style="display:block; min-height: 167px; width: 100%; min-width: 645px;" 
-                data-ad-client="ca-pub-3737135009848849"
-                data-ad-slot="5213473237" 
-                data-ad-format="auto" 
+            <ins class="adsbygoogle" style="display:block; min-height: 167px; width: 100%; min-width: 645px;"
+                data-ad-client="ca-pub-3737135009848849" data-ad-slot="5213473237" data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
             <script>
                 // setTimeout(() => {
-                    //1. 컨테이너 크기를 확인합니다.
-                    const adContainer = document.querySelector('.ad-container');
-                    const insElement = document.querySelector('.ad-container ins.adsbygoogle');
-                    
-                    if (adContainer) {
-                        // getBoundingClientRect()로 실제 계산된 크기를 가져옵니다.
-                        const rect = insElement.getBoundingClientRect();
+                //1. 컨테이너 크기를 확인합니다.
+                const adContainer = document.querySelector('.ad-container');
+                const insElement = document.querySelector('.ad-container ins.adsbygoogle');
 
-                        console.log("--- AdSense 디버깅 정보 ---");
-                        console.log("광고 컨테이너(.ad-container) DOM 객체:", adContainer);
-                        console.log("광고 컨테이너 너비 : " + adContainer.getBoundingClientRect().width + "px");
-                        console.log("광고 컨테이너 너비 : " + adContainer.getBoundingClientRect().height + "px");
-                        console.log("INS 태그(.adsbygoogle) DOM 객체:", insElement);
-                        console.log("INS 태그의 계산된 너비:", rect.width + "px");
-                        console.log("INS 태그의 계산된 높이:", rect.height + "px");
-                        console.log("---------------------------");
-                        
-                        if (rect.width < 100 || rect.height < 50) {
-                            console.error("경고: 계산된 광고 크기가 너무 작습니다. 너비가 0이거나 높이가 0일 가능성이 높습니다!");
-                        }
-                        else {
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                            console.log("ADSENSE 추가 완료");
-                        }
-                    } else {
-                        console.error("에러: .ad-container 요소를 찾을 수 없습니다.");
+                if (adContainer) {
+                    // getBoundingClientRect()로 실제 계산된 크기를 가져옵니다.
+                    const rect = insElement.getBoundingClientRect();
+
+                    console.log("--- AdSense 디버깅 정보 ---");
+                    console.log("광고 컨테이너(.ad-container) DOM 객체:", adContainer);
+                    console.log("광고 컨테이너 너비 : " + adContainer.getBoundingClientRect().width + "px");
+                    console.log("광고 컨테이너 너비 : " + adContainer.getBoundingClientRect().height + "px");
+                    console.log("INS 태그(.adsbygoogle) DOM 객체:", insElement);
+                    console.log("INS 태그의 계산된 너비:", rect.width + "px");
+                    console.log("INS 태그의 계산된 높이:", rect.height + "px");
+                    console.log("---------------------------");
+
+                    if (rect.width < 100 || rect.height < 50) {
+                        console.error("경고: 계산된 광고 크기가 너무 작습니다. 너비가 0이거나 높이가 0일 가능성이 높습니다!");
                     }
+                    else {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                        console.log("ADSENSE 추가 완료");
+                    }
+                } else {
+                    console.error("에러: .ad-container 요소를 찾을 수 없습니다.");
+                }
                 // }, 2000)
             </script>
         </div>
@@ -572,14 +572,14 @@
                 requestAnimationFrame(() => plus.style.transform = 'scale(1)');
 
                 resultArea.appendChild(plus);
-            }, stepDelay + 1200);
+            }, stepDelay + (window.innerWidth * 2));
 
             // 보너스 공 등장
-            await createBall(bonusNumber, true, stepDelay + 2000);
+            await createBall(bonusNumber, true, stepDelay + (window.innerWidth * 2));
 
             // 잠시 대기 후 정렬
-            await new Promise(r => setTimeout(r, 5000));
-            await sortBalls(mainNumbers, 500);
+            await new Promise(r => setTimeout(r, 2000));
+            sortBalls(mainNumbers, 500);
 
             // 마무리
             setTimeout(() => {
@@ -612,21 +612,33 @@
             }
         }
 
+        // 기존 코드:
+        // if (particles.length > 0) {
+        //     requestAnimationFrame(updateParticles);
+        // }
+
+        // 아래 코드로 수정:
         function updateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // 글로벌 컴포지션 설정 (잔상 효과 등 원하면 변경 가능)
+            // Canvas를 약간 투명하게 지워 잔상 효과를 만듭니다 (선택 사항)
+            ctx.fillStyle = 'rgba(26, 11, 46, 0.1)'; // 배경색에 가까운 투명 색상
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             for (let i = 0; i < particles.length; i++) {
+                // ... (파티클 업데이트 로직은 그대로) ...
                 const p = particles[i];
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vy += 0.1; // 중력
                 p.life--;
 
+                // 투명도(opacity)를 수명에 따라 조절
                 ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.life / 100; // life가 줄어들수록 투명해짐
+
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.globalAlpha = 1; // 다른 요소에 영향을 주지 않도록 알파값 복원
 
                 if (p.life <= 0) {
                     particles.splice(i, 1);
@@ -634,8 +646,13 @@
                 }
             }
 
+            // ⭐ 핵심 수정: 파티클이 남아 있으면 다음 프레임을 예약
             if (particles.length > 0) {
                 requestAnimationFrame(updateParticles);
+            }
+            // 파티클이 모두 사라지면 캔버스를 완전히 지움
+            else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
         }
 
@@ -648,9 +665,16 @@
                 createParticle(x, y);
                 count++;
                 if (count > 5) clearInterval(interval);
+
+                // ⭐ 중요: 파티클이 남아 있을 때만 updateParticles를 호출해야 재귀 호출이 과도하게 되지 않습니다.
+                // 첫 번째 폭죽이 터질 때만 루프를 시작합니다.
+                if (count === 1) {
+                    requestAnimationFrame(updateParticles);
+                }
+
             }, 300);
 
-            requestAnimationFrame(updateParticles);
+            // 여기 requestAnimationFrame(updateParticles)는 제거합니다.
         }
 
     </script>
