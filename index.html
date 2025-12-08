@@ -1,313 +1,616 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 로또 1등 당첨 기원! 🌟</title>
-    
+    <title>인생 역전! 로또 1등 당첨 기원</title>
+    <!-- 구글 애드센스 스크립트 (광고 차단 방지 및 로드) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
     <style>
-        /* CSS 스타일은 이전과 동일 */
+        /* 
+         * [스타일 정의]
+         * 전체적인 분위기는 어둡고 신비로우며, '행운'을 상징하는 금빛과 네온 효과를 사용합니다.
+         */
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+        :root {
+            --bg-color-start: #1a0b2e;
+            --bg-color-end: #4a192c;
+            --neon-gold: #ffd700;
+            --neon-glow: 0 0 10px #ffd700, 0 0 20px #ffd700, 0 0 30px #ff00de;
+
+            /* 로또 공 색상 변수 (대한민국 로또 표준 색상) */
+            --ball-yellow: #fbc400;
+            /* 1-10 */
+            --ball-blue: #69c8f2;
+            /* 11-20 */
+            --ball-red: #ff7272;
+            /* 21-30 */
+            --ball-gray: #aaaaaa;
+            /* 31-40 */
+            --ball-green: #b0d840;
+            /* 41-45 */
+        }
+
         body {
-            font-family: 'Malgun Gothic', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--bg-color-start), var(--bg-color-end));
+            min-height: 100vh;
+            color: white;
+            font-family: 'Noto Sans KR', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #1f005c, #5c005c, #8f005c);
-            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* 메인 컨테이너: 반투명 배경으로 콘텐츠 강조 */
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem;
+            width: 90%;
+            max-width: 800px;
             text-align: center;
-            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            position: absolute;
+            z-index: 10;
         }
+
+        /* 제목 스타일: 깜빡이는 애니메이션 적용 */
         h1 {
-            font-size: 2.5em;
-            color: #ffdd00;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-            margin-bottom: 5px;
-            animation: pulse 1.5s infinite alternate;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 900;
+            /* Extra Bold */
+            font-size: 3rem;
+            color: var(--neon-gold);
+            text-shadow: var(--neon-glow);
+            margin-bottom: 0.5rem;
+            animation: pulse 2s infinite ease-in-out;
+            letter-spacing: -1px;
         }
+
         @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
         }
-        .intro-text {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
+
+        p.comment {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #ffffff;
+            /* 가독성 위해 흰색으로 변경 */
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
         }
-        .numbers-container {
-            display: flex;
-            gap: 10px;
-            margin: 30px 0;
-            min-height: 80px;
-        }
-        .number-ball {
-            width: 60px;
-            height: 60px;
-            background: #ccc;
-            border-radius: 50%;
+
+        /* 구글 애드센스 영역 */
+        .ad-container {
+            width: 100%;
+            height: auto;
+            min-height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            margin: 1rem 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #333;
-            border: 4px solid #fff;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.5s ease-out;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        .number-ball.bonus {
-            border-color: #f00;
-            background: #ffe0e0;
+
+        /* 로또 공들이 들어갈 영역 */
+        .result-area {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 3rem 0;
+            min-height: 66px;
+            /* 공이 없을 때도 공간 유지 */
+            padding-left: 10%;
         }
-        .number-ball.show {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .lotto-result {
-            display: none;
-            flex-direction: column;
+
+        /* 기본 로또 공 디자인 */
+        .ball {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            /* 기본 배경은 JS로 숫자 범위에 따라 설정 */
+
+            /* 텍스트 색상을 흰색으로 변경하여 어두운 공 바탕에 대비 */
+            color: white;
+
+            display: flex;
+            justify-content: center;
             align-items: center;
-            margin-top: 20px;
-        }
-        .result-message {
-            font-size: 3em;
-            color: #00ff00;
             font-weight: 900;
-            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 5px #fff;
-            margin-top: 20px;
-            animation: shake 0.5s infinite;
+            /* 두껍게 */
+            font-size: 2rem;
+            font-family: 'Noto Sans KR', sans-serif;
+
+            /* 공의 구체적인 느낌과 윤곽 강조 */
+            box-shadow:
+                /* 내부 그림자로 구체감 추가 */
+                inset 0 0 10px rgba(0, 0, 0, 0.7),
+                /* 외부 그림자로 바닥에 닿는 느낌 추가 */
+                5px 5px 15px rgba(0, 0, 0, 0.7);
+
+            position: relative;
+            transform: scale(0);
+            text-shadow:
+                /* 텍스트에 흰색 테두리 또는 그림자를 줘서 시인성 향상 */
+                -1px -1px 0 #333,
+                1px -1px 0 #333,
+                -1px 1px 0 #333,
+                1px 1px 0 #333;
+            /* 추가: 이미지 속 공처럼 패턴을 넣으려면 복잡한 CSS 그라데이션이나 SVG 패턴이 필요합니다. */
         }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
+
+        /* 공 색상별 클래스 */
+        .color-yellow {
+            background: radial-gradient(circle at 30% 30%, #ffee58 0%, #fbc02d 50%, #f9a825 100%);
         }
-        button {
-            padding: 15px 30px;
-            font-size: 1.5em;
-            font-weight: bold;
+
+        .color-blue {
+            background: radial-gradient(circle at 30% 30%, #4fc3f7 0%, #03a9f4 50%, #0288d1 100%);
+        }
+
+        .color-red {
+            background: radial-gradient(circle at 30% 30%, #ef5350 0%, #d32f2f 50%, #c62828 100%);
+        }
+
+        .color-gray {
+            background: radial-gradient(circle at 30% 30%, #e0e0e0 0%, #9e9e9e 50%, #616161 100%);
+        }
+
+        .color-green {
+            background: radial-gradient(circle at 30% 30%, #aed581 0%, #689f38 50%, #558b2f 100%);
+        }
+
+        /* 보너스 볼 스타일 (다른 테두리, 약간의 빛나는 효과) */
+        .bonus-ball {
+            /* border: 4px solid #fff; */
+            box-shadow: 0 0 15px #fff, inset -5px -5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* 보너스 볼 라벨 표시 */
+        /* .bonus-ball::after {
+            content: '보너스';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: 700;
             color: #fff;
-            background-color: #ff005c;
+            width: 60px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+        } */
+
+        .plus-sign {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+            transform: scale(0);
+            /* 등장 전 숨김 */
+        }
+
+        /* 추첨 버튼 */
+        .draw-btn {
+            background: linear-gradient(45deg, #ff0099, #493240);
             border: none;
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            color: white;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 8px #d1004c, 0 0 20px rgba(255, 0, 92, 0.8);
-            transition: all 0.2s;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(255, 0, 153, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        button:hover {
-            background-color: #ff3377;
-            box-shadow: 0 5px #d1004c;
-            transform: translateY(3px);
+
+        .draw-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 0, 153, 0.6);
         }
-        button:active {
-            background-color: #d1004c;
-            box-shadow: 0 2px #a3003a;
-            transform: translateY(6px);
+
+        .draw-btn:active:not(:disabled) {
+            transform: translateY(1px);
         }
-        button:disabled {
-            background-color: #777;
-            box-shadow: 0 4px #555;
-            cursor: default;
+
+        .draw-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.7;
         }
-        /* 폭죽 스타일 및 번호 색상 스타일은 생략 */
-        .fireworks {
+
+        /* 등장 애니메이션 (Rolling In) */
+        @keyframes rollIn {
+            0% {
+                transform: translateX(100vw) rotate(1440deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* 
+         * 정렬 시 사용할 전환 효과 
+         * 공의 내용(색상, 숫자)이 바뀔 때 부드럽게 처리하기 위함
+         */
+        .ball {
+            /* 기존 스타일 유지 */
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: 2rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            box-shadow: inset -5px -5px 15px rgba(0, 0, 0, 0.3), 3px 3px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            /* transform: scale(0); 제거 -> rollIn에서 처리 */
+            text-shadow: none;
+            transition: transform 0.5s ease, background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* 정렬 중일 때 잠시 숨김/축소 효과 */
+        .ball.sorting {
+            transform: scale(0.1) rotate(-180deg);
+            opacity: 0.5;
+        }
+
+        /* 떨림 효과 (Jiggle) */
+        @keyframes jiggle {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            25% {
+                transform: translate(2px, 2px);
+            }
+
+            50% {
+                transform: translate(-2px, -2px);
+            }
+
+            75% {
+                transform: translate(2px, -2px);
+            }
+
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .jiggle {
+            animation: jiggle 0.2s infinite;
+        }
+
+        /* 폭죽 캔버스 (전체 화면 덮기) */
+        #fireworks {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1000;
-        }
-        .color-1 { background-color: #f9d854; color: #333; }
-        .color-2 { background-color: #69c8f2; color: #333; }
-        .color-3 { background-color: #ff7272; color: #333; }
-        .color-4 { background-color: #aaa; color: #333; }
-        .color-5 { background-color: #b0d840; color: #333; }
-
-        .ad-container {
-            max-width: 728px; /* HTML style을 CSS로 옮김 */
-            width: 100%;
+            /* 클릭 통과 */
+            z-index: 5;
         }
 
-        /* 768px 미만: 모바일 화면 (가로 폭 320px 이상 확보) */
-        @media (max-width: 767px) {
-            .ad-container {
-                /* 모바일 세로형 광고에 적합한 최소 높이 설정 */
-                min-height: 100px; 
+        /* 반응형 디자인 */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
             }
-        }
 
-        /* 768px 이상: 태블릿/PC 화면 */
-        @media (min-width: 768px) {
-            .ad-container {
-                /* PC 환경에서 흔히 쓰는 가로형 광고에 적합한 높이 설정 */
-                min-height: 90px;
+            .ball {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .container {
+                padding: 1rem;
+                margin: 1rem;
+                width: 95%;
+            }
+
+            .result-area {
+                padding-left: 0;
+                min-height: 45px;
             }
         }
     </style>
 </head>
+
 <body>
 
-    <div class="fireworks" id="fireworks-container"></div>
+    <!-- 폭죽 효과를 위한 캔버스 -->
+    <canvas id="fireworks"></canvas>
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737135009848849"
-        crossorigin="anonymous"></script>
-    <div class="ad-container">
-        <!-- Lotto생성기-광고 -->
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3737135009848849"
-            data-ad-slot="4912822814"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+    <div class="container">
+        <h1>✨ 인생 역전 로또 ✨</h1>
 
-    <h1>✨ 억! 소리 나는 행운의 기운이 몰려온다! ✨</h1>
-
-    <p class="intro-text">
-        **인생 역전**을 위한 단 하나의 기회! <br>
-        당신의 시선을 끌어당기는 황금색 번호가 곧 공개됩니다! <br>
-        집중하세요! 1등의 행운이 당신을 기다립니다! 🍀
-    </p>
-
-    <div class="numbers-container" id="numbers-container">
+        <!-- 구글 애드센스 광고 단위 -->
+        <div class="ad-container">
+            <script async
+                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3737135009848849"
+                crossorigin="anonymous"></script>
+            <!-- LOTTO-TOP -->
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3737135009848849"
+                data-ad-slot="5213473237" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
-    <button id="drawButton" onclick="startDraw()">💰 황금 번호 추첨하기! 💰</button>
+        <p class="comment">오늘 밤, 주인공은 바로 당신입니다.<br>황금빛 행운이 쏟아집니다!</p>
 
-    <div class="lotto-result" id="result-area">
-        <h2 class="result-message"></h2>
-    </div>
-    
-    <div style="margin: 30px auto; max-width: 728px;">
+        <div class="result-area" id="resultArea">
+            <!-- 로또 공들이 여기에 생성됩니다 -->
         </div>
+
+        <button class="draw-btn" id="drawBtn">운명의 번호 추첨하기</button>
+
+        <div class="congrats-msg" id="congratsMsg">🎉 1등 당첨을 진심으로 기원합니다! 🎉</div>
+    </div>
 
     <script>
-        // JavaScript 코드는 이전과 동일합니다.
-        const DRAW_COUNT = 6;
-        const BONUS_COUNT = 1;
+        /**
+         * [로또 번호 생성 및 애니메이션 로직]
+         * 1. 1~45 사이 중복 없는 숫자 7개 생성 (6개 일반 + 1개 보너스)
+         * 2. 각 공을 순차적으로 화면에 표시
+         * 3. 표시 전 떨림/롤링 효과 적용
+         * 4. 마무리로 폭죽 효과 실행
+         */
 
+        const drawBtn = document.getElementById('drawBtn');
+        const resultArea = document.getElementById('resultArea');
+        const congratsMsg = document.getElementById('congratsMsg');
+        const canvas = document.getElementById("fireworks");
+        const ctx = canvas.getContext("2d");
+
+        // 캔버스 크기 조절
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        /**
+         * 로또 번호 생성 함수
+         * @returns {Array} [무작위 순서의 6개 번호 배열, 보너스 번호] - 정렬하지 않고 반환
+         */
         function generateLottoNumbers() {
-            // ... (생략: 로또 번호 생성 로직) ...
-            const numbers = [];
-            for (let i = 1; i <= 45; i++) {
-                numbers.push(i);
+            const numbers = new Set();
+            while (numbers.size < 7) {
+                numbers.add(Math.floor(Math.random() * 45) + 1);
             }
-
-            for (let i = numbers.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-            }
-
-            const winningNumbers = numbers.slice(0, DRAW_COUNT).sort((a, b) => a - b);
-            const bonusNumber = numbers[DRAW_COUNT];
-            
-            return { winningNumbers, bonusNumber };
+            const arr = Array.from(numbers);
+            const bonus = arr.pop(); // 마지막 하나를 보너스로
+            // arr.sort((a, b) => a - b); // 정렬하지 않음 (리얼함을 위해)
+            return [arr, bonus];
         }
 
-        function getBallColorClass(number) {
-            if (number >= 1 && number <= 10) return 'color-1';
-            if (number >= 11 && number <= 20) return 'color-2';
-            if (number >= 21 && number <= 30) return 'color-3';
-            if (number >= 31 && number <= 40) return 'color-4';
-            if (number >= 41 && number <= 45) return 'color-5';
-            return '';
+        /**
+         * 숫자 범위에 따른 색상 클래스 반환
+         */
+        function getColorClass(num) {
+            if (num <= 10) return 'color-yellow';
+            if (num <= 20) return 'color-blue';
+            if (num <= 30) return 'color-red';
+            if (num <= 40) return 'color-gray';
+            return 'color-green';
         }
 
-        function startDraw() {
-            const drawButton = document.getElementById('drawButton');
-            const numbersContainer = document.getElementById('numbers-container');
-            const resultArea = document.getElementById('result-area');
-
-            drawButton.disabled = true;
-            numbersContainer.innerHTML = '';
-            resultArea.style.display = 'none';
-            document.getElementById('fireworks-container').innerHTML = '';
-
-            const { winningNumbers, bonusNumber } = generateLottoNumbers();
-            const allNumbers = [...winningNumbers, bonusNumber];
-
-            allNumbers.forEach((num, index) => {
-                const ball = document.createElement('div');
-                ball.className = `number-ball ${getBallColorClass(num)} ${index === allNumbers.length - 1 ? 'bonus' : ''}`;
-                ball.textContent = '?';
-                ball.id = `ball-${index}`;
-                numbersContainer.appendChild(ball);
-
+        /**
+         * 공 생성 및 등장을 처리하는 함수
+         * - 숫자가 확정된 상태로 굴러들어옴
+         */
+        function createBall(number, isBonus = false, delay) {
+            return new Promise((resolve) => {
                 setTimeout(() => {
-                    ball.textContent = num;
-                    ball.classList.add('show');
-                    
-                    if (index === allNumbers.length - 1) {
-                        endDrawAnimation();
-                    }
-                }, index * 800 + 500);
+                    const ball = document.createElement('div');
+                    // 초기 색상은 확정 번호에 맞춰 설정
+                    ball.className = `ball ${getColorClass(number)}`;
+                    if (isBonus) ball.classList.add('bonus-ball');
+
+                    ball.innerText = number;
+                    // 굴러오는 애니메이션 적용
+                    ball.style.animation = 'rollIn 2s linear forwards';
+
+                    resultArea.appendChild(ball);
+
+                    resolve();
+                }, delay);
             });
         }
 
-        function endDrawAnimation() {
-            const resultArea = document.getElementById('result-area');
-            const resultMessage = resultArea.querySelector('.result-message');
-            const drawButton = document.getElementById('drawButton');
+        /**
+         * 공들을 번호순으로 정렬하는 함수
+         * - 시각적 효과(수축 -> 데이터 변경 -> 팽창)를 사용
+         */
+        function sortBalls(mainNumbers, delay) {
+            return new Promise((resolve) => {
+                const balls = document.querySelectorAll('.ball:not(.bonus-ball)');
+                const sortedNumbers = [...mainNumbers].sort((a, b) => a - b);
 
+                // 1. 수축 효과 (잠시 숨김)
+                balls.forEach(ball => ball.classList.add('sorting'));
+
+                setTimeout(() => {
+                    // 2. 데이터 및 색상 변경
+                    balls.forEach((ball, index) => {
+                        const newNum = sortedNumbers[index];
+                        ball.innerText = newNum;
+
+                        // 기존 색상 클래스 제거 및 새 클래스 추가
+                        ball.className = 'ball ' + getColorClass(newNum);
+                        // sorting 클래스 유지를 위해 다시 추가 (위에서 덮어씌워졌으므로)
+                        ball.classList.add('sorting');
+                    });
+
+                    // 3. 팽창 효과 (다시 보임)
+                    // 약간의 텀을 두고 클래스 제거하여 transition 발동
+                    requestAnimationFrame(() => {
+                        balls.forEach(ball => ball.classList.remove('sorting'));
+                    });
+
+                    resolve();
+                }, delay);
+            });
+        }
+
+        /**
+         * 추첨 시작 함수 (메인 로직)
+         */
+        async function startDraw() {
+            // 초기화
+            drawBtn.disabled = true;
+            drawBtn.innerText = "추첨 진행 중...";
+            resultArea.innerHTML = '';
+            congratsMsg.classList.remove('show');
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 폭죽 초기화
+
+            const [mainNumbers, bonusNumber] = generateLottoNumbers();
+
+            // 일반 공 6개 순차 등장 (랜덤 순서)
+            const stepDelay = 600;
+
+            for (let i = 0; i < mainNumbers.length; i++) {
+                await createBall(mainNumbers[i], false, stepDelay);
+            }
+
+            // 플러스 기호 등장
             setTimeout(() => {
-                resultMessage.textContent = '💥 1등 당첨 가자! 💥';
-                resultArea.style.display = 'flex';
-                drawButton.disabled = false;
+                const plus = document.createElement('div');
+                plus.className = 'plus-sign';
+                plus.innerText = '+';
+                plus.style.animation = 'appear 0.5s forwards';
+                // appear는 기존에 있던 애니메이션인데 삭제했으므로 rollIn으로 대체하거나 복구 필요.
+                // 여기서는 간단히 opacity fadein 등으로 처리하거나 rollIn 사용. 
+                // plus-sign은 작으므로 rollIn은 과함. scale up만 복구하거나 style로 처리.
+                plus.style.animation = 'none';
+                plus.style.transform = 'scale(0)';
+                plus.style.transition = 'transform 0.5s';
+                requestAnimationFrame(() => plus.style.transform = 'scale(1)');
 
-                launchFireworks(5);
-            }, 500 * (DRAW_COUNT + BONUS_COUNT) + 500);
+                resultArea.appendChild(plus);
+            }, stepDelay + 1200);
+
+            // 보너스 공 등장
+            await createBall(bonusNumber, true, stepDelay + 2000);
+
+            // 잠시 대기 후 정렬
+            await new Promise(r => setTimeout(r, 2500));
+            await sortBalls(mainNumbers, 500);
+
+            // 마무리
+            setTimeout(() => {
+                drawBtn.disabled = false;
+                drawBtn.innerText = "다시 추첨하기";
+                congratsMsg.classList.add('show');
+                launchFireworks(); // 폭죽 발사
+            }, 500);
         }
 
-        function launchFireworks(count) {
-            const fireworksContainer = document.getElementById('fireworks-container');
-            
-            for (let i = 0; i < count; i++) {
-                const firework = document.createElement('div');
-                firework.className = 'firework';
-                
-                const x = Math.random() * 100;
-                const y = Math.random() * 80;
-                const size = Math.random() * 5 + 3;
-                const duration = Math.random() * 1.5 + 1.5;
+        drawBtn.addEventListener('click', startDraw);
 
-                firework.style.cssText = `
-                    position: absolute;
-                    left: ${x}vw;
-                    top: ${y}vh;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background-color: hsl(${Math.random() * 360}, 100%, 50%);
-                    border-radius: 50%;
-                    box-shadow: 0 0 20px 5px currentColor;
-                    animation: explode ${duration}s ease-out forwards;
-                `;
-                fireworksContainer.appendChild(firework);
+        /**
+         * [폭죽 애니메이션 로직]
+         * 간단한 파티클 시스템 구현
+         */
+        const particles = [];
 
-                firework.addEventListener('animationend', () => firework.remove());
-            }
-
-            if (!document.getElementById('fireworks-style')) {
-                const style = document.createElement('style');
-                style.id = 'fireworks-style';
-                style.textContent = `
-                    @keyframes explode {
-                        0% { opacity: 1; transform: scale(1); }
-                        100% { opacity: 0; transform: scale(30); box-shadow: 0 0 50px 20px currentColor; }
-                    }
-                `;
-                document.head.appendChild(style);
+        function createParticle(x, y) {
+            const particleCount = 30;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    life: 100, // 수명
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
             }
         }
+
+        function updateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 글로벌 컴포지션 설정 (잔상 효과 등 원하면 변경 가능)
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.1; // 중력
+                p.life--;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+
+            if (particles.length > 0) {
+                requestAnimationFrame(updateParticles);
+            }
+        }
+
+        function launchFireworks() {
+            // 화면 랜덤 위치에 여러 번 폭죽 생성
+            let count = 0;
+            const interval = setInterval(() => {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * (canvas.height / 2); // 상단 절반에서 터지도록
+                createParticle(x, y);
+                count++;
+                if (count > 5) clearInterval(interval);
+            }, 300);
+
+            requestAnimationFrame(updateParticles);
+        }
+
     </script>
 </body>
+
 </html>
