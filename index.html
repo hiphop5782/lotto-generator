@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
-  <!-- AdSense 사용 시 아래 주석을 해제하고 ca-pub-XXXXXXXXXXXXXXXX를 본인의 게시자 ID로 교체하세요. -->
-  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <!-- ads.txt의 게시자 ID를 읽어 AdSense 자동 광고를 연결합니다. -->
+  <script defer src="ad-loader.js"></script>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="machine.css" />
   <link rel="stylesheet" href="ad-layout.css" />
@@ -73,8 +73,8 @@
     <section class="ad-section" aria-label="광고 영역">
       <span class="ad-label">ADVERTISEMENT</span>
       <div class="ad-slot" id="adSlotTop">
-        <!-- 실제 적용 시 data-ad-client와 data-ad-slot을 본인 값으로 바꾸고 아래 ins의 hidden 속성을 제거하세요. -->
-        <ins class="adsbygoogle" hidden style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <!-- 기존 LOTTO-TOP 광고 단위. 게시자 ID는 ads.txt에서 자동 적용됩니다. -->
+        <ins class="adsbygoogle" hidden style="display:block" data-ad-slot="5213473237" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <div class="ad-placeholder"><span>AD</span><p>Google AdSense 광고 영역</p></div>
       </div>
     </section>
@@ -106,7 +106,7 @@
     <span>© 2026 LUCKY ORBIT</span>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
-  <script src="three-machine.js"></script>
+  <script src="three-machine.js?v=20260826-rail3"></script>
   <script src="app.js"></script>
 </body>
 </html>
