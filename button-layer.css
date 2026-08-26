@@ -1,0 +1,48 @@
+.machine-actions,
+.machine-actions.is-docked {
+  position: fixed;
+  z-index: 2147483000;
+  top: 98px;
+  right: 22px;
+  bottom: auto;
+  left: auto;
+  width: auto;
+  margin: 0;
+  padding: 7px;
+  display: flex;
+  flex-direction: row;
+  transform: none;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 12px;
+  background: rgba(5, 18, 11, .92);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .45);
+}
+
+.machine-actions .draw-btn,
+.machine-actions.is-docked .draw-btn {
+  min-width: 210px;
+}
+
+.machine-actions .reset-btn,
+.machine-actions.is-docked .reset-btn {
+  width: 54px;
+  height: 54px;
+  align-self: auto;
+}
+
+@media (max-width: 850px) {
+  .machine-actions,
+  .machine-actions.is-docked {
+    top: auto;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .machine-actions .draw-btn,
+  .machine-actions.is-docked .draw-btn {
+    min-width: 0;
+    flex: 1;
+  }
+}
