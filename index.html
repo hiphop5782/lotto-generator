@@ -4,8 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07150f" />
-  <meta name="description" content="3D 드럼에서 만나는 재미있는 로또 번호 추첨기" />
-  <title>LUCKY ORBIT — 3D 로또 추첨기</title>
+  <meta name="description" content="로또스피어에서 실제 추첨기처럼 움직이는 3D 로또 공으로 무작위 번호 6개를 추첨하고 최근 결과를 확인해보세요." />
+  <meta name="keywords" content="로또 번호 추첨기, 로또 번호 생성기, 로또 번호 추천, 3D 로또 추첨, 로또스피어" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="author" content="Lotto Sphere" />
+  <link rel="canonical" href="https://lotto.sysout.co.kr/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="로또스피어" />
+  <meta property="og:title" content="로또스피어 | 실감형 3D 로또 추첨기" />
+  <meta property="og:description" content="실제 추첨 환경을 재현한 3D 로또 번호 추첨기를 체험해보세요." />
+  <meta property="og:url" content="https://lotto.sysout.co.kr/" />
+  <meta property="og:image" content="https://lotto.sysout.co.kr/assets/lotto-sphere-og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="로또스피어 실감형 3D 로또 추첨기" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="로또스피어 | 실감형 3D 로또 추첨기" />
+  <meta name="twitter:description" content="3D 추첨기에서 무작위 로또 번호 6개를 직접 추첨해보세요." />
+  <meta name="twitter:image" content="https://lotto.sysout.co.kr/assets/lotto-sphere-og.png" />
+  <title>로또스피어 | 실감형 3D 로또 번호 추첨기</title>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"로또스피어","alternateName":"Lotto Sphere","url":"https://lotto.sysout.co.kr/","description":"실제 추첨 환경을 재현한 실감형 3D 로또 번호 추첨기","applicationCategory":"EntertainmentApplication","operatingSystem":"Any","inLanguage":"ko-KR","isAccessibleForFree":true,"image":"https://lotto.sysout.co.kr/assets/lotto-sphere-og.png"}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
@@ -16,15 +39,17 @@
   <link rel="stylesheet" href="ad-layout.css" />
   <link rel="stylesheet" href="controls.css?v=20260826-side1" />
   <link rel="stylesheet" href="base-layer.css?v=20260827-back1" />
-  <link rel="stylesheet" href="button-layer.css?v=20260827-fixed1" />
+  <link rel="stylesheet" href="button-layer.css?v=20260827-footer-space1" />
   <link rel="stylesheet" href="drag-control.css?v=20260827-yaw1" />
+  <link rel="stylesheet" href="reviews.css?v=20260827-test1" />
+  <link rel="stylesheet" href="reviews-single.css?v=20260827-single1" />
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
   <header class="topbar">
-    <a class="brand" href="#" aria-label="Lucky Orbit 홈">
-      <span class="brand-mark">L</span>
-      <span>LUCKY <i>ORBIT</i></span>
+    <a class="brand" href="#" aria-label="로또스피어 홈">
+      <span class="brand-mark">S</span>
+      <span>LOTTO <i>SPHERE</i></span>
     </a>
     <nav aria-label="주요 메뉴">
       <a class="active" href="#draw">번호 추첨</a>
@@ -39,12 +64,12 @@
   <main>
     <section class="hero" id="draw">
       <div class="hero-copy">
-        <h1>당신의 운을<br><em>시험해보세요.</em></h1>
+        <h1>당신의 운을 <em>시험해보세요.</em></h1>
         <p class="lead">실제 추첨과 동일한 환경으로 구성했습니다.</p>
 
         <div class="result-panel" aria-live="polite">
           <div class="result-head">
-            <span>LUCKY NUMBERS</span>
+            <span>LOTTO NUMBERS</span>
             <span id="drawState">추첨 준비 완료</span>
           </div>
           <div class="number-row" id="numberRow">
@@ -79,7 +104,7 @@
 
     <section class="history-section" id="history">
       <div class="section-title">
-        <div><p class="eyebrow"><span></span> MY LUCKY ARCHIVE</p><h2>최근 추첨 기록</h2></div>
+        <div><p class="eyebrow"><span></span> MY LOTTO ARCHIVE</p><h2>최근 추첨 기록</h2></div>
         <button id="clearHistory" type="button">기록 비우기</button>
       </div>
       <div class="history-grid" id="historyGrid">
@@ -89,22 +114,33 @@
 
     <section class="guide" id="guide">
       <p class="eyebrow"><span></span> HOW IT WORKS</p>
-      <h2>행운을 만나는 가장 즐거운 방법</h2>
+      <h2>로또스피어를 더 재미있게 즐기는 방법</h2>
       <div class="steps">
-        <article><b>01</b><span>↗</span><h3>추첨을 시작해요</h3><p>버튼을 누르면 강한 바람이<br>45개의 공을 고르게 섞습니다.</p></article>
-        <article><b>02</b><span>◎</span><h3>공이 레일을 달려요</h3><p>선택된 공이 나선형 레일을<br>중력에 따라 자연스럽게 내려옵니다.</p></article>
-        <article><b>03</b><span>✦</span><h3>번호를 확인해요</h3><p>도착 순서대로 놓인 여섯 공과<br>선명한 번호를 확인해보세요.</p></article>
+        <article><b>01</b><span>↔</span><h3>360도로 둘러보세요</h3><p>추첨기를 좌우로 드래그해<br>원하는 각도에서 움직임을 관찰할 수 있어요.</p></article>
+        <article><b>02</b><span>↻</span><h3>정면으로 돌아오세요</h3><p>리셋 버튼을 누르면 추첨 결과를 비우고<br>회전한 추첨기도 정면으로 돌아옵니다.</p></article>
+        <article><b>03</b><span>▤</span><h3>추첨 기록을 모아보세요</h3><p>완료된 번호는 최근 추첨 기록에 누적되며<br>번호순으로 정리해 다시 확인할 수 있어요.</p></article>
+      </div>
+    </section>
+
+    <section class="reviews" id="reviews" aria-labelledby="reviewsTitle">
+      <div class="reviews-head">
+        <div><p class="eyebrow"><span></span> EXPERIENCE PREVIEW</p><h2 id="reviewsTitle">이용 후기</h2></div>
+        <!-- <p class="reviews-notice"><b>이용자</b>들의 생생한 후기를 확인해보세요</p> -->
+      </div>
+      <div class="reviews-window" aria-label="자동 재생되는 테스트 메시지">
+        <div class="reviews-track" id="reviewsTrack"></div>
       </div>
     </section>
   </main>
 
   <footer>
-    <a class="brand footer-brand" href="#"><span class="brand-mark">L</span><span>LUCKY <i>ORBIT</i></span></a>
+    <a class="brand footer-brand" href="#"><span class="brand-mark">S</span><span>LOTTO <i>SPHERE</i></span></a>
     <p>본 서비스는 번호 추천을 위한 엔터테인먼트 도구이며 당첨을 보장하지 않습니다.<br>복권은 만 19세 이상만 구매할 수 있습니다.</p>
-    <span>© 2026 LUCKY ORBIT</span>
+    <span>© 2026 LOTTO SPHERE</span>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
   <script src="three-machine.js?v=20260827-floor-jets1"></script>
   <script src="app.js?v=20260827-skip1"></script>
+  <script src="reviews.js?v=20260827-list200"></script>
 </body>
 </html>

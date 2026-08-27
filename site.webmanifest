@@ -1,0 +1,11 @@
+{
+  "name": "로또스피어 | 실감형 3D 로또 추첨기",
+  "short_name": "로또스피어",
+  "description": "실제 추첨 환경을 재현한 3D 로또 번호 추첨기",
+  "lang": "ko-KR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#06130d",
+  "theme_color": "#07150f",
+  "icons": [{"src":"/assets/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

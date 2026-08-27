@@ -32,6 +32,10 @@
 }
 
 @media (max-width: 850px) {
+  footer {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  }
+
   .machine-actions,
   .machine-actions.is-docked {
     top: auto;

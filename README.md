@@ -1,4 +1,4 @@
-# LUCKY ORBIT
+# LOTTO SPHERE
 
 Canvas 기반 3D 로또 번호 추첨 사이트입니다. `index.html`을 열면 바로 실행됩니다.
 
