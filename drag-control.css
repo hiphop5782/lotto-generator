@@ -1,0 +1,9 @@
+#threeMachine canvas {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+#threeMachine canvas.is-dragging {
+  cursor: grabbing;
+}
