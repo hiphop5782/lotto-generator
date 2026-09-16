@@ -44,6 +44,17 @@
     document.querySelector('.machine-wrap').scrollIntoView({behavior:'smooth',block:'start'});
   }
   $('replayDraw').addEventListener('click',()=>replay(Number($('replayGame').value)));
+  $('finishReplay').addEventListener('click',()=>{
+    if(!busy||activeReplay===null)return;
+    if(window.finishLottoDraw?.()){
+      $('finishReplay').disabled=true;
+      window.trackLotto?.('replay_skip',{game_index:activeReplay+1});
+    }
+  });
+  window.addEventListener('lotto:busy',e=>{
+    $('finishReplay').hidden=!e.detail||activeReplay===null;
+    $('finishReplay').disabled=!e.detail;
+  });
   $('ticket').addEventListener('click',e=>{const button=e.target.closest('[data-replay]');if(button)replay(Number(button.dataset.replay))});
   window.addEventListener('lotto:busy',e=>{busy=e.detail;['quickDraw','fiveDraw','replayDraw','replayGame','shareTicket','copyLink','copyNumbers','saveTicket'].forEach(id=>$(id).disabled=busy);document.querySelectorAll('.ticket-replay').forEach(button=>{button.disabled=busy;const playing=busy&&Number(button.dataset.replay)===activeReplay;button.classList.toggle('is-playing',playing);button.innerHTML=playing?'재생 중':'<span aria-hidden="true">▶</span> 재생'});if(busy&&activeReplay===null)$('replayBanner').hidden=true});
   window.addEventListener('lotto:result',e=>{if(e.detail.replay){$('replayLabel').textContent=String.fromCharCode(65+activeReplay)+'게임 재생 완료';status(String.fromCharCode(65+activeReplay)+'게임 번호 재생을 마쳤어요.');activeReplay=null;return;}games=[e.detail.nums];createdAt=new Date();render('new')});

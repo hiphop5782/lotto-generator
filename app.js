@@ -4,11 +4,20 @@ function uniqueNumbers(){const a=Array.from({length:45},(_,i)=>i+1);for(let i=a.
 function colorClass(n){return n<=10?'yellow':n<=20?'blue':n<=30?'red':n<=40?'gray':'green'}
 function beep(freq=520,duration=.07){if(!soundOn)return;try{const ac=beep.ac||(beep.ac=new AudioContext()),o=ac.createOscillator(),g=ac.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.04,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+duration);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+duration)}catch(e){}}
 async function draw(forcedNumbers=null, options={}){
-  if(drawing){skipRequested=true;skipWaitResolve?.();window.skipCurrentExtraction?.();drawState.textContent='결과를 바로 표시하고 있어요…';return}
+  if(drawing){finishCurrentDraw();return}
   if(!window.extractLottoBall){drawState.textContent='3D를 불러오지 못했어요. 빠른 추첨을 이용해주세요.';return}drawing=true;skipRequested=false;drawBtn.disabled=false;drawBtn.querySelector('span:nth-child(2)').textContent='결과 바로 보기';drawBtn.querySelector('small').textContent='추첨 애니메이션 건너뛰기';window.setResultStageLowered?.(false);selected=Array.isArray(forcedNumbers)&&LottoCore.valid([forcedNumbers])?[...forcedNumbers]:uniqueNumbers();window.dispatchEvent(new CustomEvent('lotto:busy',{detail:true}));window.trackLotto?.('draw_start',{mode:options.replay?'replay':'3d',game_count:1});drawState.textContent='공을 강하게 혼합하고 있어요…';numberRow.innerHTML=Array(6).fill('<span class="number empty">?</span>').join('');window.setLottoSpinning(true);beep(180,.2);await waitOrSkip(1900);
   for(let i=0;i<selected.length;i++){const n=selected[i];drawState.textContent=skipRequested?'결과를 바로 표시하고 있어요…':`${i+1}번째 공 배출 중…`;if(skipRequested)window.placeLottoBall?.(n,i);else await window.extractLottoBall(n,i);numberRow.children[i].outerHTML=`<span class="number landed ${colorClass(n)}">${n}</span>`;if(!skipRequested){beep(390+n*9,.1);await waitOrSkip(240)}}
   window.setLottoSpinning(false);window.setResultStageLowered?.(true);drawing=false;skipRequested=false;skipWaitResolve=null;drawBtn.disabled=false;drawBtn.querySelector('span:nth-child(2)').textContent='행운 번호 추첨하기';drawBtn.querySelector('small').textContent='번호 추첨 시작';drawState.textContent='6개의 행운 공 추첨 완료';if(!options.replay)saveHistory(selected);renderHistory();window.dispatchEvent(new CustomEvent('lotto:busy',{detail:false}));window.dispatchEvent(new CustomEvent('lotto:result',{detail:{nums:[...selected],replay:!!options.replay}}));window.trackLotto?.('draw_complete',{mode:options.replay?'replay':'3d',game_count:1});
 }
+function finishCurrentDraw(){
+  if(!drawing||skipRequested)return false;
+  skipRequested=true;
+  skipWaitResolve?.();
+  window.skipCurrentExtraction?.();
+  drawState.textContent='결과를 바로 표시하고 있어요…';
+  return true;
+}
+window.finishLottoDraw=finishCurrentDraw;
 function waitOrSkip(ms){if(skipRequested)return Promise.resolve();return new Promise(resolve=>{const timer=setTimeout(()=>{skipWaitResolve=null;resolve()},ms);skipWaitResolve=()=>{clearTimeout(timer);skipWaitResolve=null;resolve()}})}
 function readHistory(){try{const list=JSON.parse(localStorage.getItem('lucky-orbit-history')||'[]');return Array.isArray(list)?list.filter(x=>x&&LottoCore.valid([x.nums])&&Number.isFinite(Date.parse(x.date))).slice(0,6):[]}catch{return []}}
 function saveHistory(nums){const list=readHistory();list.unshift({nums,date:new Date().toISOString()});try{localStorage.setItem('lucky-orbit-history',JSON.stringify(list.slice(0,6)))}catch{}}

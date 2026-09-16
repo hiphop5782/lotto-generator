@@ -9,6 +9,11 @@
 .ticket-replay.is-playing { opacity: 1; background: #174d31; color: white; }
 .replay-banner { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: min(100%, 390px); z-index: 15; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; padding: 12px; border: 1px solid #19e879; border-radius: 10px; background: #082015f2; color: #baff3a; font-size: 14px; }
 .replay-banner[hidden] { display: none; }
+.replay-banner strong { flex-basis: 100%; text-align: center; }
+#finishReplay { min-height: 44px; padding: 10px 16px; border: 0; border-radius: 7px; background: #19e879; color: #07150f; font: 700 14px 'Gowun Dodum', sans-serif; cursor: pointer; }
+#finishReplay:hover { background: #baff3a; }
+#finishReplay:disabled { opacity: .6; cursor: wait; }
+#finishReplay[hidden] { display: none; }
 .replay-banner a { color: #d2e3d7; font-size: 12px; text-underline-offset: 3px; }
 .machine-wrap { scroll-margin-top: 20px; }
 @media (max-width: 480px) {
