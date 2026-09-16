@@ -43,8 +43,9 @@
   <link rel="stylesheet" href="drag-control.css?v=20260827-yaw1" />
   <link rel="stylesheet" href="reviews.css?v=20260827-test1" />
   <link rel="stylesheet" href="reviews-single.css?v=20260827-single1" />
-  <link rel="stylesheet" href="growth.css" />
-  <script src="analytics.js"></script>
+  <link rel="stylesheet" href="growth.css?v=20260916-replay1" />
+  <link rel="stylesheet" href="ticket-ads.css" />
+  <script src="analytics.js?v=20260916-short1"></script>
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -85,6 +86,7 @@
       </div>
 
       <div class="machine-wrap" aria-label="회전하는 3D 로또 추첨기">
+        <div id="replayBanner" class="replay-banner" hidden><strong id="replayLabel" role="status"></strong><a href="#ticketSection">영수증으로 돌아가기 ↓</a></div>
         <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
         <div id="threeMachine"></div>
         <div class="actions machine-actions">
@@ -99,16 +101,21 @@
 
     <section class="ticket-section" id="ticketSection" aria-labelledby="ticketTitle" hidden>
       <h2 id="ticketTitle">나의 행운 번호</h2><p>번호를 보관하고, 같은 추첨을 친구와 나눠보세요.</p>
+      <div class="ticket-layout">
+        <aside class="ticket-ad ticket-ad-primary" aria-label="광고">
+          <span class="ticket-ad-label">광고 · ADVERTISEMENT</span>
+          <div class="ticket-ad-slot" data-ticket-ad="primary"></div>
+        </aside>
+        <div class="ticket-content">
+      <p class="ticket-replay-hint">각 게임 옆 <b>▶ 재생</b>을 누르면 같은 번호로 3D 추첨을 볼 수 있어요.</p>
       <div id="ticket" class="ticket" aria-live="polite"></div>
       <div class="ticket-actions"><button id="shareTicket" type="button">결과 공유</button><button id="copyLink" type="button">링크 복사</button><button id="copyNumbers" type="button">번호 복사</button><button id="saveTicket" type="button">이미지 저장</button></div>
       <p class="growth-status" id="growthStatus" role="status"></p><input id="shareFallback" class="share-fallback" aria-label="복사할 내용" readonly hidden />
-    </section>
-    <section class="ad-section" aria-label="광고 영역">
-      <span class="ad-label">ADVERTISEMENT</span>
-      <div class="ad-slot" id="adSlotTop">
-        <!-- LOTTO-TOP 반응형 광고 단위 -->
-        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3737135009848849" data-ad-slot="5213473237" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+        <aside class="ticket-ad ticket-ad-secondary" aria-label="광고">
+          <span class="ticket-ad-label">광고 · ADVERTISEMENT</span>
+          <div class="ticket-ad-slot" data-ticket-ad="secondary"></div>
+        </aside>
       </div>
     </section>
 
@@ -157,9 +164,10 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
   <script src="three-machine.js?v=20260827-floor-jets1"></script>
-  <script src="lotto-core.js"></script>
+  <script src="lotto-core.js?v=20260916-short1"></script>
   <script src="app.js?v=20260916-growth1"></script>
-  <script src="growth.js"></script>
+  <script src="growth.js?v=20260916-replay1"></script>
+  <script src="ticket-ads.js"></script>
   <script src="reviews.js?v=20260827-list200"></script>
 </body>
 </html>

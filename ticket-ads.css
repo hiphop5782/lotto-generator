@@ -1,0 +1,43 @@
+.ticket-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 430px);
+  justify-content: center;
+  max-width: 1126px;
+  margin: 0 auto;
+}
+.ticket-content { grid-row: 1; min-width: 0; }
+.ticket-content .ticket { width: 100%; }
+.ticket-ad {
+  width: 300px;
+  justify-self: center;
+  align-self: start;
+  margin-top: 64px;
+  text-align: center;
+}
+.ticket-ad-secondary { display: none; }
+.ticket-ad-label {
+  display: block;
+  margin-bottom: 12px;
+  color: #93a99b;
+  font-size: 10px;
+  letter-spacing: .12em;
+}
+.ticket-ad-slot {
+  width: 300px;
+  height: 250px;
+  background: rgba(255, 255, 255, .025);
+  outline: 1px solid rgba(255, 255, 255, .08);
+}
+.ticket-ad-slot .adsbygoogle { display: block; width: 300px; height: 250px; }
+/* Floating draw controls must not cover an ad while scrolling past it. */
+body.ticket-ads-in-view .machine-actions { visibility: hidden; pointer-events: none; }
+@media (min-width: 1200px) {
+  .ticket-layout { grid-template-columns: 300px minmax(0, 430px) 300px; column-gap: 48px; }
+  .ticket-content { grid-column: 2; }
+  .ticket-ad { grid-row: 1; margin-top: 24px; }
+  .ticket-ad-primary { grid-column: 1; }
+  .ticket-ad-secondary { display: block; grid-column: 3; }
+}
+@media (max-width: 359px) {
+  .ticket-section { padding-left: 10px; padding-right: 10px; }
+}
