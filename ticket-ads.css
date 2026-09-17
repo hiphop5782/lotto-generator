@@ -29,8 +29,6 @@
   outline: 1px solid rgba(255, 255, 255, .08);
 }
 .ticket-ad-slot .adsbygoogle { display: block; width: 300px; height: 250px; }
-/* Floating draw controls must not cover an ad while scrolling past it. */
-body.ticket-ads-in-view .machine-actions { visibility: hidden; pointer-events: none; }
 @media (min-width: 1200px) {
   .ticket-layout { grid-template-columns: 300px minmax(0, 430px) 300px; column-gap: 48px; }
   .ticket-content { grid-column: 2; }

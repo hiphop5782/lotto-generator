@@ -1,25 +1,20 @@
-.machine-actions {
-  position: absolute;
-  z-index: 12;
-  top: auto;
-  right: auto;
-  bottom: -24px;
-  left: 50%;
-  width: max-content;
-  max-width: 100%;
-  margin: 0;
-  padding: 7px;
-  transform: translateX(-50%);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 12px;
-  background: rgba(5,18,11,.92);
-}
-.machine-actions .draw-btn { min-width: 210px; }
-.machine-actions .reset-btn { width:54px; height:54px; align-self:auto; }
-@media(max-width:850px) {
-  .hero .machine-wrap { margin-bottom:40px; }
-}
-@media(max-width:520px) {
-  .machine-actions { width:calc(100% - 24px); bottom:-24px; }
-  .machine-actions .draw-btn { min-width:0; flex:1; }
+.draw-controls-slot { grid-column:1 / -1; position:relative; z-index:25; margin-top:48px; }
+.machine-actions { display:grid; grid-template-columns:minmax(210px,1.5fr) repeat(2,minmax(120px,1fr)) 48px; gap:8px; width:min(100%,720px); margin:0 auto; padding:10px; border:1px solid #ffffff24; border-radius:14px; background:#0b2017f5; box-shadow:0 8px 24px #0004; }
+.machine-actions.is-docked { position:fixed; z-index:100; left:50%; bottom:calc(12px + env(safe-area-inset-bottom)); transform:translateX(-50%); width:min(calc(100% - 24px),720px); }
+.machine-actions button { min-width:0; min-height:48px; height:54px; font:inherit; cursor:pointer; border-radius:7px; }
+.machine-actions .draw-btn { min-width:0; padding:0 14px; font-weight:700; }
+.machine-actions .quick-btn { border:1px solid #557264; background:#102b1c; color:#e9f3e9; font-size:14px; }
+.machine-actions .skip-btn { border:0; background:#baff3a; color:#07150f; font-weight:700; }
+.machine-actions .reset-btn { width:48px; height:54px; align-self:center; }
+.machine-actions button:disabled { opacity:.45; cursor:wait; }
+.machine-actions button:hover:not(:disabled) { border-color:#19e879; }
+.machine-actions [hidden] { display:none; }
+footer { padding-bottom:calc(120px + env(safe-area-inset-bottom)); }
+@media(max-width:600px) {
+  .machine-actions { grid-template-columns:repeat(2,minmax(0,1fr)) 44px; padding:8px; gap:7px; }
+  .machine-actions .draw-btn,.machine-actions .skip-btn { grid-column:1 / 3; grid-row:1; }
+  .machine-actions .reset-btn { grid-column:3; grid-row:1; width:44px; }
+  .machine-actions .quick-btn { grid-row:2; height:44px; min-height:44px; font-size:13px; }
+  .machine-actions #fiveDraw { grid-column:2 / 4; }
+  footer { padding-bottom:calc(170px + env(safe-area-inset-bottom)); }
 }

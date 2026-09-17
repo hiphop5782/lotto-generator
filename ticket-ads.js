@@ -1,7 +1,6 @@
 (() => {
   const slots = [...document.querySelectorAll('[data-ticket-ad]')];
   const requested = new WeakSet();
-  const visibleSlots = new Set();
 
   function requestAd(slot) {
     if (requested.has(slot) || slot.getBoundingClientRect().width < 300) return;
@@ -26,12 +25,5 @@
   const loadObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => { if (entry.isIntersecting) requestAd(entry.target); });
   }, { threshold: 0 });
-  const controlsObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) visibleSlots.add(entry.target);
-      else visibleSlots.delete(entry.target);
-    });
-    document.body.classList.toggle('ticket-ads-in-view', visibleSlots.size > 0);
-  }, { rootMargin: '100px 0px', threshold: 0 });
-  slots.forEach(slot => { loadObserver.observe(slot); controlsObserver.observe(slot); });
+  slots.forEach(slot => loadObserver.observe(slot));
 })();
