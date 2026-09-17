@@ -1,52 +1,25 @@
-.machine-actions,
-.machine-actions.is-docked {
-  position: fixed;
-  z-index: 2147483000;
-  top: 98px;
-  right: 22px;
-  bottom: auto;
-  left: auto;
-  width: auto;
+.machine-actions {
+  position: absolute;
+  z-index: 12;
+  top: auto;
+  right: auto;
+  bottom: -24px;
+  left: 50%;
+  width: max-content;
+  max-width: 100%;
   margin: 0;
   padding: 7px;
-  display: flex;
-  flex-direction: row;
-  transform: none;
-  border: 1px solid rgba(255, 255, 255, .14);
+  transform: translateX(-50%);
+  border: 1px solid rgba(255,255,255,.14);
   border-radius: 12px;
-  background: rgba(5, 18, 11, .92);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, .45);
+  background: rgba(5,18,11,.92);
 }
-
-.machine-actions .draw-btn,
-.machine-actions.is-docked .draw-btn {
-  min-width: 210px;
+.machine-actions .draw-btn { min-width: 210px; }
+.machine-actions .reset-btn { width:54px; height:54px; align-self:auto; }
+@media(max-width:850px) {
+  .hero .machine-wrap { margin-bottom:40px; }
 }
-
-.machine-actions .reset-btn,
-.machine-actions.is-docked .reset-btn {
-  width: 54px;
-  height: 54px;
-  align-self: auto;
-}
-
-@media (max-width: 850px) {
-  footer {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
-  }
-
-  .machine-actions,
-  .machine-actions.is-docked {
-    top: auto;
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-  }
-
-  .machine-actions .draw-btn,
-  .machine-actions.is-docked .draw-btn {
-    min-width: 0;
-    flex: 1;
-  }
+@media(max-width:520px) {
+  .machine-actions { width:calc(100% - 24px); bottom:-24px; }
+  .machine-actions .draw-btn { min-width:0; flex:1; }
 }

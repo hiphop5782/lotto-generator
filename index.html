@@ -39,11 +39,11 @@
   <link rel="stylesheet" href="adsense-responsive.css?v=20260827-official1" />
   <link rel="stylesheet" href="controls.css?v=20260826-side1" />
   <link rel="stylesheet" href="base-layer.css?v=20260827-back1" />
-  <link rel="stylesheet" href="button-layer.css?v=20260827-footer-space1" />
+  <link rel="stylesheet" href="button-layer.css?v=20260917-controls1" />
   <link rel="stylesheet" href="drag-control.css?v=20260827-yaw1" />
   <link rel="stylesheet" href="reviews.css?v=20260827-test1" />
   <link rel="stylesheet" href="reviews-single.css?v=20260827-single1" />
-  <link rel="stylesheet" href="growth.css?v=20260916-replay2" />
+  <link rel="stylesheet" href="growth.css?v=20260917-controls1" />
   <link rel="stylesheet" href="ticket-ads.css" />
   <script src="analytics.js?v=20260916-short1"></script>
 </head>
@@ -82,11 +82,11 @@
         </div>
 
         <div class="quick-tools"><button id="quickDraw" type="button">⚡ 빠른 1게임</button><button id="fiveDraw" type="button">▤ 5게임 한 번에</button></div>
-        <div id="sharedPanel" class="shared-panel" hidden><strong>공유받은 번호가 도착했어요.</strong><p id="sharedMessage"></p><label>재현할 게임 <select id="replayGame" aria-label="재현할 게임"></select></label> <button id="replayDraw" type="button">같은 번호로 추첨 재현</button></div>
+        <div id="sharedPanel" class="shared-panel" hidden><strong>공유받은 번호가 도착했어요.</strong><p id="sharedMessage"></p><a href="#ticketSection">번호 확인하기 ↓</a></div>
       </div>
 
       <div class="machine-wrap" aria-label="회전하는 3D 로또 추첨기">
-        <div id="replayBanner" class="replay-banner" hidden><strong id="replayLabel" role="status"></strong><button id="finishReplay" type="button" hidden>⚡ 결과 바로 보기</button><a href="#ticketSection">영수증으로 돌아가기 ↓</a></div>
+        <div id="replayBanner" class="replay-banner" hidden><strong id="replayLabel" role="status"></strong><a href="#ticketSection">영수증으로 돌아가기 ↓</a></div>
         <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
         <div id="threeMachine"></div>
         <div class="actions machine-actions">
@@ -107,8 +107,9 @@
           <div class="ticket-ad-slot" data-ticket-ad="primary"></div>
         </aside>
         <div class="ticket-content">
-      <p class="ticket-replay-hint">각 게임 옆 <b>▶ 재생</b>을 누르면 같은 번호로 3D 추첨을 볼 수 있어요.</p>
+
       <div id="ticket" class="ticket" aria-live="polite"></div>
+      <div class="ticket-replay-controls"><label for="replayGame">다시 볼 게임</label><select id="replayGame"></select><button id="replayDraw" type="button">▶ 3D 재생</button><p>선택한 게임의 번호와 추첨 순서를 다시 볼 수 있어요.</p></div>
       <div class="ticket-actions"><button id="shareTicket" type="button">결과 공유</button><button id="copyLink" type="button">링크 복사</button><button id="copyNumbers" type="button">번호 복사</button><button id="saveTicket" type="button">이미지 저장</button></div>
       <p class="growth-status" id="growthStatus" role="status"></p><input id="shareFallback" class="share-fallback" aria-label="복사할 내용" readonly hidden />
         </div>
@@ -165,8 +166,8 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
   <script src="three-machine.js?v=20260827-floor-jets1"></script>
   <script src="lotto-core.js?v=20260916-short1"></script>
-  <script src="app.js?v=20260916-replay2"></script>
-  <script src="growth.js?v=20260916-replay2"></script>
+  <script src="app.js?v=20260917-controls1"></script>
+  <script src="growth.js?v=20260917-controls1"></script>
   <script src="ticket-ads.js"></script>
   <script src="reviews.js?v=20260827-list200"></script>
 </body>

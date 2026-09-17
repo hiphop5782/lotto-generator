@@ -6,8 +6,8 @@
   function render(source){
     activeReplay=null; $('replayBanner').hidden=true;
     $('ticketSection').hidden=false;
-    $('ticket').innerHTML=`<div class="ticket-brand">LOTTO <small>SPHERE / 6·45</small></div><div class="ticket-badge">번호 보관용 · 미구매</div><div class="ticket-meta">${source==='shared'?'공유 번호 열람':'번호 생성'} ${createdAt.toLocaleString('ko-KR')}<br>무작위 번호 ${games.length}게임</div><div class="ticket-games">${games.map((g,i)=>`<div class="ticket-game"><b>${String.fromCharCode(65+i)}</b><small>자동</small><div class="ticket-numbers">${format(g).map(n=>`<span>${n}</span>`).join('')}</div><button class="ticket-replay" type="button" data-replay="${i}" aria-label="${String.fromCharCode(65+i)}게임 번호 재생"><span aria-hidden="true">▶</span> 재생</button></div>`).join('')}</div><div class="ticket-note">실제 복권 및 구매 영수증이 아닙니다.<br>당첨을 보장하지 않는 무작위 번호입니다.<br>lotto.sysout.co.kr · LOTTO SPHERE</div>`;
-    $('sharedPanel').hidden=false;
+    $('ticket').innerHTML=`<div class="ticket-brand">LOTTO <small>SPHERE / 6·45</small></div><div class="ticket-badge">번호 보관용 · 미구매</div><div class="ticket-meta">${source==='shared'?'공유 번호 열람':'번호 생성'} ${createdAt.toLocaleString('ko-KR')}<br>무작위 번호 ${games.length}게임</div><div class="ticket-games">${games.map((g,i)=>`<div class="ticket-game"><b>${String.fromCharCode(65+i)}</b><small>자동</small><div class="ticket-numbers">${format(g).map(n=>`<span>${n}</span>`).join('')}</div></div>`).join('')}</div><div class="ticket-note">실제 복권 및 구매 영수증이 아닙니다.<br>당첨을 보장하지 않는 무작위 번호입니다.<br>lotto.sysout.co.kr · LOTTO SPHERE</div>`;
+    $('sharedPanel').hidden=source!=='shared';
     $('replayDraw').disabled=busy;
     $('sharedPanel').querySelector('strong').textContent=source==='shared'?'공유받은 번호가 도착했어요.':'이 번호로 3D 추첨을 다시 보세요.';
     $('sharedMessage').textContent='번호와 추첨 순서를 재현합니다. 공의 움직임은 매번 달라질 수 있어요.';
@@ -44,19 +44,7 @@
     document.querySelector('.machine-wrap').scrollIntoView({behavior:'smooth',block:'start'});
   }
   $('replayDraw').addEventListener('click',()=>replay(Number($('replayGame').value)));
-  $('finishReplay').addEventListener('click',()=>{
-    if(!busy||activeReplay===null)return;
-    if(window.finishLottoDraw?.()){
-      $('finishReplay').disabled=true;
-      window.trackLotto?.('replay_skip',{game_index:activeReplay+1});
-    }
-  });
-  window.addEventListener('lotto:busy',e=>{
-    $('finishReplay').hidden=!e.detail||activeReplay===null;
-    $('finishReplay').disabled=!e.detail;
-  });
-  $('ticket').addEventListener('click',e=>{const button=e.target.closest('[data-replay]');if(button)replay(Number(button.dataset.replay))});
-  window.addEventListener('lotto:busy',e=>{busy=e.detail;['quickDraw','fiveDraw','replayDraw','replayGame','shareTicket','copyLink','copyNumbers','saveTicket'].forEach(id=>$(id).disabled=busy);document.querySelectorAll('.ticket-replay').forEach(button=>{button.disabled=busy;const playing=busy&&Number(button.dataset.replay)===activeReplay;button.classList.toggle('is-playing',playing);button.innerHTML=playing?'재생 중':'<span aria-hidden="true">▶</span> 재생'});if(busy&&activeReplay===null)$('replayBanner').hidden=true});
+  window.addEventListener('lotto:busy',e=>{busy=e.detail;['quickDraw','fiveDraw','replayDraw','replayGame','shareTicket','copyLink','copyNumbers','saveTicket'].forEach(id=>$(id).disabled=busy);$('replayDraw').textContent=busy&&activeReplay!==null?'재생 중…':'▶ 3D 재생';if(busy&&activeReplay===null)$('replayBanner').hidden=true});
   window.addEventListener('lotto:result',e=>{if(e.detail.replay){$('replayLabel').textContent=String.fromCharCode(65+activeReplay)+'게임 재생 완료';status(String.fromCharCode(65+activeReplay)+'게임 번호 재생을 마쳤어요.');activeReplay=null;return;}games=[e.detail.nums];createdAt=new Date();render('new')});
   $('copyLink').addEventListener('click',()=>copy(url(),'share_link_copy'));
   $('copyNumbers').addEventListener('click',()=>copy(text(),'numbers_copy'));
@@ -82,6 +70,6 @@
   if(params.has('s')||params.has('numbers')){
     const parsed=LottoCore.readShare(location.search);
     if(parsed){games=parsed;render('shared');window.trackLotto?.('shared_visit',{game_count:games.length})}
-    else{$('sharedPanel').hidden=false;$('sharedPanel').querySelector('strong').textContent='공유 링크의 번호가 올바르지 않아요.';$('sharedMessage').textContent='게임당 1~45의 서로 다른 번호 6개, 최대 5게임만 지원합니다. 새 번호를 추첨해주세요.';$('replayDraw').disabled=true;window.trackLotto?.('shared_link_invalid')}
+    else{$('sharedPanel').hidden=false;$('sharedPanel').querySelector('strong').textContent='공유 링크의 번호가 올바르지 않아요.';$('sharedMessage').textContent='게임당 1~45의 서로 다른 번호 6개, 최대 5게임만 지원합니다. 새 번호를 추첨해주세요.';$('sharedPanel').querySelector('a').hidden=true;$('replayDraw').disabled=true;window.trackLotto?.('shared_link_invalid')}
   }
 })();
